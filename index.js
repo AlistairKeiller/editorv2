@@ -25,5 +25,6 @@ const html = `<!DOCTYPE html>
 </html>`
 
 require('http').createServer((req, res) => {
+  console.log(req.url)
   res.end(html)
 }).listen(80)
