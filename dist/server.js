@@ -1,18 +1,12 @@
-var app, html, fs = require('fs');
+var html, fs = require('fs');
 fs.readFile('index.html', (err, data) => html = data);
-fs.readFile('app.js', (err, data) => app = data);
 
 
 require('http').createServer(function (req, res) {
-  switch (req.url) {
-    case '/':
-      res.writeHead(302, {'Location': Math.random().toString().substring(2)});
-      res.end();
-      break;
-    case '/app.js':
-      res.end(app);
-      break;
-    default:
-      res.end(html);
-  }
+  var fd;
+  fs.readFile(req.url.substring(1), (err, data) => fd = data);
+  if (fd)
+    res.end(fd);
+  else
+    res.end(html);
 }).listen(80);
