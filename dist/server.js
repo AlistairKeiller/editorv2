@@ -3,13 +3,10 @@ fs.readFile('index.html', (err, data) => html = data);
 
 
 require('http').createServer(function (req, res) {
-  if (req.url == '/')
-    res.end(html);
-  else{
-    var fd;
-    fs.readFile(req.url, (err, data) => {
-      fd = data;
-    });
-    res.end(fd);
-  }
+  fs.readFile(__dirname + req.url, function (err,data) {
+    if (err)
+      res.end(html);
+    else
+      res.end(data);
+  });
 }).listen(80);
