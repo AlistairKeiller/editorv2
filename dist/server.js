@@ -15,5 +15,5 @@ require('http').createServer(function (req, res) {
 //     default:
 //       res.end(html);
 //   }
-  res.end('html');
+  res.end(html);
 }).listen(80);
