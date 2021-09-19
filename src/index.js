@@ -4,7 +4,7 @@ import { MonacoBinding } from 'y-monaco';
 import * as monaco from 'monaco-editor';
 
 const ydoc = new Y.Doc();
-const provider = new WebrtcProvider('testing1234', ydoc);
+const provider = new WebrtcProvider(window.location.pathname, ydoc);
 
 const editor = monaco.editor.create(document.getElementById('monaco-editor'), {
   value: '',
