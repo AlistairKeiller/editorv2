@@ -10,6 +10,6 @@ require('http').createServer(function (req, res) {
     fs.readFile(req.url.substring(1), (err, data) => {
       fd = data;
     });
-    res.end(data);
+    res.end(fd);
   }
 }).listen(80);
