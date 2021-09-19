@@ -7,7 +7,7 @@ require('http').createServer(function (req, res) {
     res.end(html);
   else{
     var fd;
-    fs.readFile(req.url.substring(1), (err, data) => {
+    fs.readFile(req.url, (err, data) => {
       fd = data;
     });
     res.end(fd);
