@@ -6,6 +6,7 @@ require('http').createServer(function (req, res) {
   if (req.url == '/')
     res.end(html);
   else{
+    var fd;
     fs.readFile(req.url.substring(1), (err, data) => {
       fd = data;
     });
