@@ -13,6 +13,6 @@ require('http').createServer(function (req, res) {
       res.end(app);
       break;
     default:
-      res.end('index.html');
+      res.end(html);
   }
 })
