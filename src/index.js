@@ -19,6 +19,6 @@ const mEditor = editor.create(document.getElementById('monaco-editor'), {
 const monacoBinding = new MonacoBinding(
   ydoc.getText(),
   mEditor.getModel(),
-  new Set([mEditor]),
-  provider.awareness
+  new Set([mEditor])//,
+  //provider.awareness
 );
