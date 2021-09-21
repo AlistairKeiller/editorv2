@@ -13,7 +13,7 @@ const mEditor = editor.create(document.getElementById('monaco-editor'), {
   wordWrap: 'on',
   minimap: {
     enabled: false
-  },
+  }
 });
 
 const monacoBinding = new MonacoBinding(
