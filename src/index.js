@@ -7,7 +7,6 @@ const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
 
 const mEditor = editor.create(document.getElementById('monaco-editor'), {
-  value: '',
   language: 'java',
   theme: 'vs-dark'
 });
