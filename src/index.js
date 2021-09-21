@@ -8,7 +8,8 @@ const provider = new WebrtcProvider(window.location.pathname, ydoc);
 
 const mEditor = editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
-  theme: 'vs-dark'
+  theme: 'vs-dark',
+  automaticLayout: true
 });
 
 const monacoBinding = new MonacoBinding(
