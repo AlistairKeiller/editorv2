@@ -10,13 +10,13 @@ const mEditor = editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
   theme: 'vs-dark',
   automaticLayout: true,
-  wordWrap: 'on',
+//   wordWrap: 'on',
   minimap: {
     enabled: false
   },
-  scrollbar: {
-    vertical: 'auto'
-   }
+//   scrollbar: {
+//     vertical: 'auto'
+//    }
 });
 
 const monacoBinding = new MonacoBinding(
