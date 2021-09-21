@@ -1,12 +1,12 @@
 import { Doc } from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
-import { editor } from 'monaco-editor';
+import * as monaco from 'monaco-editor';
 
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
 
-const mEditor = editor.create(document.getElementById('monaco-editor'), {
+const editor = monaco.editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
   theme: 'vs-dark',
   automaticLayout: true,
@@ -21,7 +21,7 @@ const mEditor = editor.create(document.getElementById('monaco-editor'), {
 
 const monacoBinding = new MonacoBinding(
   ydoc.getText(),
-  mEditor.getModel(),
-  new Set([mEditor]),
+  editor.getModel(),
+  new Set([editor]),
   provider.awareness
 );
