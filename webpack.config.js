@@ -9,14 +9,10 @@ module.exports = {
   },
   module: {
     rules: [
-//       {
-//         test: /\.css$/,
-//         use: ['style-loader', 'css-loader'],
-//       },
-//       {
-//         test: /\.ttf$/,
-//         type: 'asset'
-//       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   plugins: [new MonacoWebpackPlugin()],
