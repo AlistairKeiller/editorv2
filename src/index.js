@@ -9,7 +9,14 @@ const provider = new WebrtcProvider(window.location.pathname, ydoc);
 const mEditor = editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
   theme: 'vs-dark',
-  automaticLayout: true
+  automaticLayout: true,
+  wordWrap: 'on',
+  minimap: {
+    enabled: false
+  },
+  scrollbar: {
+    vertical: 'auto'
+   }
 });
 
 const monacoBinding = new MonacoBinding(
