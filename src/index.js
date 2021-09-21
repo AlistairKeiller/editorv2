@@ -14,9 +14,6 @@ const mEditor = editor.create(document.getElementById('monaco-editor'), {
   minimap: {
     enabled: false
   },
-  scrollbar: {
-    vertical: 'auto'
-   }
 });
 
 const monacoBinding = new MonacoBinding(
