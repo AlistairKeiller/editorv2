@@ -13,10 +13,10 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.ttf$/,
-        type: 'asset'
-      },
+//       {
+//         test: /\.ttf$/,
+//         type: 'asset'
+//       },
     ],
   },
   plugins: [new MonacoWebpackPlugin()],
