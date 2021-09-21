@@ -1,9 +1,10 @@
-import { Doc } from 'yjs';
+// import { Doc } from 'yjs';
+import * as Y from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 
-const ydoc = new Doc();
+const ydoc = new Y.Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
 
 const mEditor = editor.create(document.getElementById('monaco-editor'), {
