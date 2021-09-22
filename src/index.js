@@ -3,7 +3,6 @@ import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 import * as BrowserFS from 'browserfs';
-import * as doppio from 'doppiojvm';
 
 BrowserFS.install(window);
 BrowserFS.configure({
