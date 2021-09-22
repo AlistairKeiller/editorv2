@@ -4,16 +4,7 @@ import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 import * as BrowserFS from 'browserfs';
 
-BrowserFS.install(window);
-BrowserFS.configure({
-    fs: "LocalStorage"
-  }, function(e) {
-    if (e) {
-      // An error happened!
-      throw e;
-    }
-    // Otherwise, BrowserFS is ready-to-use!
-  });
+var mfs = new BrowserFS.FileSystem.MountableFileSystem();
 
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
