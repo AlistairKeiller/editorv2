@@ -5,6 +5,17 @@ import { editor } from 'monaco-editor';
 import * as BrowserFS from 'browserfs';
 import * as doppio from 'doppiojvm';
 
+BrowserFS.install(window);
+BrowserFS.configure({
+    fs: "LocalStorage"
+  }, function(e) {
+    if (e) {
+      // An error happened!
+      throw e;
+    }
+    // Otherwise, BrowserFS is ready-to-use!
+  });
+
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
 
