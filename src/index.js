@@ -29,7 +29,7 @@ const monacoBinding = new MonacoBinding(
 BrowserFS.configure({
   fs: "MountableFileSystem",
   options: {
-    "/home": { fs: "inMemory" }
+    "/tmp": { fs: "inMemory" }
 //     "/home": { fs: "LocalStorage" }
   }
 }, function(e) {
