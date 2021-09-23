@@ -26,7 +26,8 @@ const monacoBinding = new MonacoBinding(
 
 BrowserFS.configure({
     fs: "MountableFileSystem",
-    "/home": { fs: "InMemory" }
+    "/tmp": { fs: "InMemory" },
+    "/home": { fs: "IndexedDB" }
   }, function(e) {
     if (e)
       throw e;
