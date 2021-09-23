@@ -24,5 +24,12 @@ const monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-BrowserFS.configure({fs: "inMemory"}, (e) => {if (e) throw e;});
+// BrowserFS.configure({fs: "inMemory"}, (e) => {if (e) throw e;});
 
+BrowserFS.configure({
+  fs: "MountableFileSystem",
+  options: {
+    '/home': { fs: 'LocalStorage' }
+  }
+}, function(e) {
+});
