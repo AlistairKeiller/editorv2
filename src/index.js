@@ -28,7 +28,7 @@ BrowserFS.configure({
   fs: "MountableFileSystem",
   options: {
     '/home': { fs: 'LocalStorage' },
-    '/tmp': { fs: 'inMemory' },
+    '/tmp': { fs: 'inMemory' }
   }
 }, function(e) {
   if (e)
