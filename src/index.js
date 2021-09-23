@@ -26,21 +26,8 @@ const monacoBinding = new MonacoBinding(
 
 BrowserFS.configure({
     fs: "MountableFileSystem",
-    options: {
-      "/zip": {
-        fs: "ZipFS",
-        options: {
-          // Wrap as Buffer object.
-          zipData: Buffer.from(zipData)
-        }
-      },
-      "/tmp": { fs: "InMemory" },
-      "/home": { fs: "IndexedDB" }
-    }
+    "/home": { fs: "InMemory" }
   }, function(e) {
-    if (e) {
-      // An error occurred.
+    if (e)
       throw e;
-    }
-    // Otherwise, BrowserFS is ready to use!
   });
