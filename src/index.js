@@ -25,7 +25,7 @@ const monacoBinding = new MonacoBinding(
 );
 
 BrowserFS.configure({
-  fs: "LocalStorage",
+  fs: "MountableFileSystem",
   options: {
       "/tmp": { fs: "InMemory" },
       "/home": { fs: "IndexedDB" }
