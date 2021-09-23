@@ -4,8 +4,6 @@ import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 import * as BrowserFS from 'browserfs';
 
-var mfs = new BrowserFS.FileSystem.MountableFileSystem();
-
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
 
@@ -25,3 +23,10 @@ const monacoBinding = new MonacoBinding(
   new Set([mEditor]),
   provider.awareness
 );
+
+BrowserFS.configure({
+    fs: "MountableFileSystem",
+    options: {
+      "/home": { fs: "InMemory" },
+    }
+});
