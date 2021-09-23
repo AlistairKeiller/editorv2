@@ -33,6 +33,6 @@ BrowserFS.configure({
 //     "/home": { fs: "LocalStorage" }
   }
 }, function(e) {
-  if(e)
+  if (e)
     throw e;
 });
