@@ -24,11 +24,4 @@ const monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-BrowserFS.configure({
-    fs: "MountableFileSystem",
-    "/tmp": { fs: "InMemory" },
-    "/home": { fs: "IndexedDB" }
-  }, function(e) {
-    if (e)
-      throw e;
-  });
+BrowserFS.configure({fs: "LocalStorage"}, (e) => {if (e) throw e;});
