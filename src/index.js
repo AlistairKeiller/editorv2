@@ -24,4 +24,9 @@ const monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-BrowserFS.configure({fs: "LocalStorage"}, (e) => {if (e) throw e;});
+// BrowserFS.configure({fs: "LocalStorage"}, (e) => {if (e) throw e;});
+var mfs = new BrowserFS.FileSystem.MountableFileSystem();
+BrowserFS.initialize(mfs);
+mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
+mfs.mount('/home', new BrowserFS.FileSystem.LocalStorage());
+
