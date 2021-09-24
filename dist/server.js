@@ -2,11 +2,10 @@ var html, fs = require('fs');
 fs.readFile('index.html', (err, data) => html = data);
 
 require('http').createServer(function (req, res) {
-  String url = req.url;
-  if (url.contains(".map"))
+  if (req.url.includes(".map"))
     res.end(html);
   else
-    fs.readFile(__dirname + url, function (err,data) {
+    fs.readFile(__dirname + req.url, function (err,data) {
       if (err)
         res.end(html);
       else
