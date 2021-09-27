@@ -38,7 +38,8 @@ fetch('doppio.zip').then(function(response) {
           zipData: BrowserFS.BFSRequire('buffer').Buffer.from(zipData)
         }
       },
-      "/home": { fs: "InMemory" }
+      "/home": { fs: "InMemory" },
+      "/tmp": { fs: "InMemory" }
     }
   }, function(e) {
     if (e)
