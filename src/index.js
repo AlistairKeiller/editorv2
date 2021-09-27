@@ -2,7 +2,6 @@ import { Doc } from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
-import { compileJavaSource } from './javapoly.js'
 
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
