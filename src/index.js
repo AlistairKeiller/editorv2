@@ -4,6 +4,7 @@ import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 import * as BrowserFS from 'browserfs';
 import * as Doppio from 'doppiojvm';
+import 'core-js';
 
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
@@ -44,3 +45,7 @@ fetch('doppio.zip').then(function(response) {
       throw e;
   });
 });
+
+new Doppio.VM.JVM({
+  doppioHomePath: '/sys'
+}, function(err, jvmObject) {});
