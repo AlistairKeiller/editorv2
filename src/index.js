@@ -22,9 +22,3 @@ const monacoBinding = new MonacoBinding(
   new Set([mEditor]),
   provider.awareness
 );
-
-compileJavaSource(`class Main {
-  public static void main(String[] args) {
-    System.out.println("Hello world!");
-  }
-}`);
