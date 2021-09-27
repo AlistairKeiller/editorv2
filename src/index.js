@@ -3,6 +3,7 @@ import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 import * as BrowserFS from 'browserfs';
+import * as Doppio from 'doppiojvm';
 
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
@@ -24,13 +25,13 @@ const monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-fetch('mydata.zip').then(function(response) {
+fetch('doppio.zip').then(function(response) {
   return response.arrayBuffer();
 }).then(function(zipData) {
   BrowserFS.configure({
     fs: "MountableFileSystem",
     options: {
-      "/zip": {
+      "/sys": {
         fs: "ZipFS",
         options: {
           zipData: BrowserFS.BFSRequire('buffer').Buffer.from(zipData)
