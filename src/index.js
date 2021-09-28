@@ -26,26 +26,20 @@ const monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-BrowserFS.install(window);
-fetch('doppio.zip').then(function(response) {
-  return response.arrayBuffer();
-}).then(function(zipData) {
-  BrowserFS.configure({
-    fs: "MountableFileSystem",
-    options: {
-      "/sys": {
-        fs: "ZipFS",
-        options: {
-          zipData: BrowserFS.BFSRequire('buffer').Buffer.from(zipData)
-        }
-      },
-      "/home": { fs: "InMemory" },
-      "/tmp": { fs: "InMemory" }
-    }
-  }, function(e) {
-    if (e)
-      throw e;
+fetch('doppio_home.zip')
+  .then((r) => r.arrayBuffer())
+  .then((d) => {
+    BrowserFS.configure({
+      fs: "MountableFileSystem",
+      options: {
+        "/home": {
+          fs: "ZipFS",
+          options: {
+            zipData: BrowserFS.BFSRequire('buffer').Buffer.from(d)
+          }
+        },
+        "/tmp": { fs: "InMemory" }
+      }
+    });
+    new Doppio.VM.JVM({doppioHomePath: '/home'});
   });
-});
-
-jvm.runClass( 'test', [], function(response){});
