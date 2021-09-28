@@ -26,6 +26,7 @@ const monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
+BrowserFS.install(window);
 fetch('doppio.zip').then(function(response) {
   return response.arrayBuffer();
 }).then(function(zipData) {
