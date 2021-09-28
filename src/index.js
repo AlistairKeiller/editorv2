@@ -47,6 +47,4 @@ fetch('doppio.zip').then(function(response) {
   });
 });
 
-new Doppio.VM.JVM({
-  doppioHomePath: '/sys'
-}, function(err, jvmObject) {});
+jvm.runClass( 'test', [], function(response){});
