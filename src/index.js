@@ -40,6 +40,6 @@ fetch('doppio_home.zip')
         },
         "/tmp": { fs: "InMemory" }
       }
-    });
+    }, (e) => {if (e) throw e;});
     new Doppio.VM.JVM({doppioHomePath: '/home'});
   });
