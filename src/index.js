@@ -68,4 +68,19 @@ fetch('doppio_home.zip')
     BrowserFS.initialize(mfs);
 
     copyDir('/zip_home', '/home');
+  
+    fs.writeFile("/tmp/Main.java", `class Main {
+  public static void main(String[] args) {
+    System.out.println("Hello world!");
+  }
+}`);
+
+    console.log("running JVM");
+    Doppio.VM.CLI(
+      ['/home/Javac', '/tmp/Main.java'],
+      {doppioHomePath: '/home'}, 
+      exitCode => {
+        if (exitCode === 0)
+          Doppio.VM.CLI(['/tmp/Main'],{doppioHomePath: '/home'});
+      });
     });
