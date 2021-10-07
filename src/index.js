@@ -25,6 +25,7 @@ const monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
+BrowserFS.install(window);
 fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
 process.initializeTTYs();
 process.stdout.on('data', function(data) {
