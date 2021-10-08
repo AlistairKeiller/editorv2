@@ -2,8 +2,8 @@ import { Doc } from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
-import * as BrowserFS from 'browserfs';
-import * as Doppio from 'doppiojvm';
+// import * as BrowserFS from 'browserfs';
+// import * as Doppio from 'doppiojvm';
 
 const ydoc = new Doc();
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
