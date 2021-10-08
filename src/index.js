@@ -4,9 +4,9 @@ import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 import * as Doppio from 'doppiojvm';
 
-const ydoc = new Doc();
-const provider = new WebrtcProvider(window.location.pathname, ydoc);
-const mEditor = editor.create(document.getElementById('monaco-editor'), {
+const ydoc = new Doc(),
+provider = new WebrtcProvider(window.location.pathname, ydoc),
+mEditor = editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
   theme: 'vs-dark',
   automaticLayout: true,
@@ -14,69 +14,62 @@ const mEditor = editor.create(document.getElementById('monaco-editor'), {
   minimap: {
     enabled: false
   }
-});
-const monacoBinding = new MonacoBinding(
+}),
+monacoBinding = new MonacoBinding(
   ydoc.getText(),
   mEditor.getModel(),
   new Set([mEditor]),
   provider.awareness
 );
 
-const fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
-function copyDir(src, dest) {
-  fs.mkdir(dest, e => {
-    if (e && e.code !== 'EEXIST')
-      console.log(e);
-    fs.readdir(src, (e, files) => {
-      if (e)
-        console.log(e);
-      files.forEach(file => {
-        var srcFile = path.resolve(src, file), destFile = path.resolve(dest, file);
-        fs.stat(srcFile, (e, stat) => {
-          if (e)
-            console.log(e);
-          stat.isDirectory() ?
-          copyDir(srcFile, destFile) :
-          fs.readFile(srcFile, (e, data) => {
-            if (e)
-              console.log(e);
-            fs.writeFile(destFile, data);
-          });
-        });
-      });
-    });
-  });
-}
-
-process.initializeTTYs();
-process.stdout.on('data', function(data) {
-  console.log(data.toString());
-});
-process.stderr.on('data', function(data) {
-  console.log(data.toString());
-});
-var mfs = new BrowserFS.FileSystem.MountableFileSystem();
-mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
-mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
 fetch('doppio_home.zip')
   .then(r => r.arrayBuffer())
   .then(d => {
+    const fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
+
+    function copyDir(src, dest) {
+      fs.mkdir(dest, e => {
+        fs.readdir(src, (e, files) => {
+          files.forEach(file => {
+            var srcFile = path.resolve(src, file), destFile = path.resolve(dest, file);
+            fs.stat(srcFile, (e, stat) => {
+              stat.isDirectory() ?
+              copyDir(srcFile, destFile) :
+              fs.readFile(srcFile, (e, data) => {
+                fs.writeFile(destFile, data);
+              });
+            });
+          });
+        });
+      });
+    }
+
+    process.initializeTTYs();
+    process.stdout.on('data', function(data) {
+      console.log(data.toString());
+    });
+    process.stderr.on('data', function(data) {
+      console.log(data.toString());
+    });
+
+    var mfs = new BrowserFS.FileSystem.MountableFileSystem();
     mfs.mount('/zip_home', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
+    mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
+    mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
     BrowserFS.initialize(mfs);
 
     copyDir('/zip_home', '/home');
-  
-    fs.writeFile("/tmp/Main.java", `class Main {
-  public static void main(String[] args) {
-    System.out.println("Hello world!");
-  }
-}`);
-
-    Doppio.VM.CLI(
-      ['/home/Javac', '/tmp/Main.java'],
-      {doppioHomePath: '/home'}, 
-      exitCode => {
-        if (exitCode === 0)
-          Doppio.VM.CLI(['/tmp/Main'],{doppioHomePath: '/home'});
+    
+    function compileAndRun() {
+      fs.writeFile('/tmp/Main.java', mEditor.getValue());
+      Doppio.VM.CLI(
+        ['/home/Javac', '/tmp/Main.java'],
+        {doppioHomePath: '/home'}, 
+        e => {
+          if (e === 0)
+            Doppio.VM.CLI(['/tmp/Main'],{doppioHomePath: '/home'});
       });
+    }
+
+    document.getElementById("runButton").onclick = compileAndRun;
     });
