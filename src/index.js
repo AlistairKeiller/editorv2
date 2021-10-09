@@ -71,5 +71,6 @@ fetch('doppio_home.zip')
       });
     }
 
-    document.getElementById("runButton").onclick = compileAndRun;
+    document.getElementById('loadButton').onclick = compileAndRun;
+    document.getElementById('loadButton').id = 'runButton';
     });
