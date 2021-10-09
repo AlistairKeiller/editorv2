@@ -61,8 +61,8 @@ fetch('doppio_home.zip')
     copyDir('/zip_home', '/home');
     
     function compileAndRun() {
-      document.getElementById('loadButton').onclick = "";
-      document.getElementById('loadButton').id = 'runningButton';
+      document.getElementById('runButton').onclick = "";
+      document.getElementById('runButton').id = 'runningButton';
       fs.writeFile('/tmp/Main.java', mEditor.getValue());
       Doppio.VM.CLI(
         ['/home/Javac', '/tmp/Main.java'],
@@ -75,8 +75,7 @@ fetch('doppio_home.zip')
               () => {
                 document.getElementById('runningButton').onclick = compileAndRun;
                 document.getElementById('runningButton').id = 'runButton';
-              }
-            );
+              });
       });
     }
 
