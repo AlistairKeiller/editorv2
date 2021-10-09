@@ -6,7 +6,6 @@
         overflow: hidden;
         margin: 0;
         background-color: #1e1e1e;
-        text-align: center;
       }
       #loadButton {
         border: none;
@@ -53,10 +52,10 @@
         width: 150px;
         transition: 0.5s;
       }
-      #stopButton:before {
+      #runningButton:before {
         content: 'running...';
       }
-      #stopButton:hover {
+      #runningButton:hover {
         background-color: darkred;
         color: white;
       }
@@ -77,7 +76,8 @@
     </style>
   </head>
   <body>
-    <button id="loadButton"></button>
+    
+    <div style="text-align:center"><button id="loadButton" onclick=""></button></div>
     <div id="monaco-editor"></div>
     <script src="app.js"></script>
   </body>
