@@ -60,25 +60,24 @@ fetch('doppio_home.zip')
 
     copyDir('/zip_home', '/home');
     
-    function compileAndRun() {
-      document.getElementById('runButton').onclick = "";
-      document.getElementById('runButton').id = 'runningButton';
-      fs.writeFile('/tmp/Main.java', mEditor.getValue());
-      Doppio.VM.CLI(
-        ['/home/Javac', '/tmp/Main.java'],
-        {doppioHomePath: '/home'}, 
-        e => {
-          if (e === 0)
-            Doppio.VM.CLI(
-              ['/tmp/Main'],
-              {doppioHomePath: '/home'},
-              () => {
-                document.getElementById('runningButton').onclick = compileAndRun;
-                document.getElementById('runningButton').id = 'runButton';
-              });
-      });
+    var button = document.getElementById('loadButton');
+    button.id = 'runButton';
+    button.onclick = () => {
+      if (button.id === 'runButton'){
+        button.id = 'runningButton';
+        fs.writeFile('/tmp/Main.java', mEditor.getValue());
+        Doppio.VM.CLI(
+          ['/home/Javac', '/tmp/Main.java'],
+          {doppioHomePath: '/home'}, 
+          e => {
+            if (e === 0)
+              Doppio.VM.CLI(
+                ['/tmp/Main'],
+                {doppioHomePath: '/home'},
+                () => {
+                  button.id = 'runButton';
+                });
+        });
+      }
     }
-
-    document.getElementById('loadButton').onclick = compileAndRun;
-    document.getElementById('loadButton').id = 'runButton';
     });
