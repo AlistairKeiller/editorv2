@@ -74,9 +74,8 @@ fetch('doppio_home.zip')
               Doppio.VM.CLI(
                 ['/tmp/Main'],
                 {doppioHomePath: '/home'},
-                () => {
-                  button.id = 'runButton';
-                });
+                () => {button.id = 'runButton';}
+              );
         });
       }
     }
