@@ -21,7 +21,7 @@ monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-fetch('doppio_home.zip')
+fetch('https://plasma-umass.org/doppio-demo/doppio_home.zip')
   .then(d => d.arrayBuffer())
   .then(d => {
     const fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
@@ -62,7 +62,7 @@ fetch('doppio_home.zip')
 //     button.id = 'runButton';
     
     Doppio.VM.CLI(
-      ['/home/Javac'],
+      ['/home/classes/demo/Chatterbot'],
       {doppioHomePath: '/home'}
     );
     
