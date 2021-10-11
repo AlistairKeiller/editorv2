@@ -2,7 +2,9 @@ import { Doc } from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
-import * as Doppio from 'doppiojvm';
+import { VM } from 'doppiojvm';
+
+const fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
 
 function copyDir(src, dest) {
   fs.mkdir(dest, e => {
@@ -29,7 +31,7 @@ function extract(data, fs) {
   copyDir('/ziped', '/unziped');
 }
 
-const ydoc = new Doc(),
+var ydoc = new Doc(),
 provider = new WebrtcProvider(window.location.pathname, ydoc),
 mEditor = editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
@@ -70,12 +72,12 @@ fetch('doppio_home.zip')
       if (button.id === 'runButton'){
         button.id = 'runningButton';
         fs.writeFile('/tmp/Main.java', mEditor.getValue());
-        Doppio.VM.CLI(
+        VM.CLI(
           ['/home/Javac', '/tmp/Main.java'],
           {doppioHomePath: '/home'}, 
           e => {
             if (e === 0)
-              Doppio.VM.CLI(
+              VM.CLI(
                 ['/tmp/Main'],
                 {doppioHomePath: '/home'},
                 () => {button.id = 'runButton';}
