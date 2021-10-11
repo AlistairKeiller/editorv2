@@ -92,6 +92,8 @@ fetch('doppio.zip')
         term.write(d);
     });
     process.stderr.on('data', (d) => {
+      console.log(d);
+      console.log(d.toString());
       if (d.toString() == '\u000A')
         term.writeln('');
       else
