@@ -9,7 +9,6 @@ provider = new WebrtcProvider(window.location.pathname, ydoc),
 mEditor = editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
   theme: 'vs-dark',
-  automaticLayout: true,
   wordWrap: 'on',
   minimap: {
     enabled: false
@@ -22,8 +21,8 @@ monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-fetch('doppio.zip')
-  .then(r => r.arrayBuffer())
+fetch('doppio_home.zip')
+  .then(d => d.arrayBuffer())
   .then(d => {
     const fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
 
@@ -44,43 +43,46 @@ fetch('doppio.zip')
       });
     }
 
-    process.initializeTTYs();
-    process.stdout.on('data', d => {
-      console.log(d.toString());
-    });
-    process.stderr.on('data', d => {
-      console.log(d.toString());
-    });
+//     process.initializeTTYs();
+//     process.stdout.on('data', d => {
+//       console.log(d.toString());
+//     });
+//     process.stderr.on('data', d => {
+//       console.log(d.toString());
+//     });
 
     var mfs = new BrowserFS.FileSystem.MountableFileSystem();
-    mfs.mount('/ziped', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
+    mfs.mount('/zip_home', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
     mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
     mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
     BrowserFS.initialize(mfs);
-    copyDir('/ziped', '/home');
+    copyDir('/zip_home', '/home');
     
-    fs.readFile('/home/Javac.class', (e, d) => {
-      console.log(e);
-      console.log(d);
-    })
+//     var button = document.getElementById('loadButton');
+//     button.id = 'runButton';
     
-    var button = document.getElementById('loadButton');
-    button.id = 'runButton';
-    button.onclick = () => {
-      if (button.id === 'runButton'){
-        button.id = 'runningButton';
-        fs.writeFile('/tmp/Main.java', mEditor.getValue());
-        Doppio.VM.CLI(
-          ['/home/Javac', '/tmp/Main.java'],
-          {doppioHomePath: '/home'}, 
-          e => {
-            if (e === 0)
-              Doppio.VM.CLI(
-                ['/tmp/Main'],
-                {doppioHomePath: '/home'},
-                () => {button.id = 'runButton';}
-              );
-        });
-      }
-    }
+    Doppio.VM.CLI(
+      ['/home/Javac'],
+      {doppioHomePath: '/home'}
+    );
+    
+    // button.onclick = () => {
+    //   if (button.id === 'runButton'){
+    //     console.log(mEditor.getValue())
+    //     button.id = 'runningButton';
+    //     fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
+    //       Doppio.VM.CLI(
+    //       ['/home/Javac', '/tmp/Main.java'],
+    //       {doppioHomePath: '/home'}, 
+    //       e => {
+    //         if (e === 0)
+    //           Doppio.VM.CLI(
+    //             ['/tmp/Main'],
+    //             {doppioHomePath: '/home'},
+    //             () => {button.id = 'runButton';}
+    //           );
+    //     });
+    //     });
+    //   }
+    // }
     });
