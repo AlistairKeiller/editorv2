@@ -16,6 +16,6 @@ module.exports = {
   },
   plugins: [
     new MonacoWebpackPlugin(),
-    new webpack.ProvidePlugin({ BrowserFS: require.resolve('browserfs') })
+    new webpack.ProvidePlugin({ BrowserFS: 'browserfs' })
   ]
 };
