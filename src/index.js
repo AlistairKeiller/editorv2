@@ -2,7 +2,7 @@ import { Doc } from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
-import setimmediate;
+import 'setimmediate';
 import * as Doppio from 'doppiojvm';
 
 const ydoc = new Doc(),
