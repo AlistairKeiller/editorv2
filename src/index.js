@@ -62,10 +62,12 @@ fetch('doppio.zip')
     BrowserFS.initialize(mfs);
     copyDir('/zip', '/tmp');
 
-    var button = document.getElementById('loadButton');
+    var button = document.getElementById('loadButton'), command = '';;
     button.id = 'runButton';
     button.onclick = () => {
       button.id = 'compilingButton';
+      term.clear();
+      command = '';
       fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
         VM.CLI(
           ['/tmp/Javac', '/tmp/Main.java'],
@@ -78,7 +80,6 @@ fetch('doppio.zip')
                 });
               else {
                 button.id = 'runningButton';
-                term.reset(); // clear terminal
                 VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
                   fs.unlink('/tmp/Main.class', () => {
                     button.id = 'runButton';
@@ -101,7 +102,6 @@ fetch('doppio.zip')
       for (var i = 0; i < split.length - 1; i++) term.writeln(split[i]);
       term.write(split[split.length - 1]);
     });
-    var command = '';
     term.onData((e) => {
       switch (e) {
         case '\r': // Enter
