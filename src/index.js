@@ -66,9 +66,11 @@ fetch('doppio.zip')
           Doppio.VM.CLI(
           ['/tmp/Javac', '/tmp/Main.java'],
           {doppioHomePath: '/tmp'}, 
-          e => {
+          () => {
             fs.readFile('/tmp/Main.class', e => {
-              if (e){
+              if (e)
+                button.id = 'runButton';
+              else{
                 button.id = 'runningButton';
                 Doppio.VM.CLI(
                   ['/tmp/Main'],
@@ -76,8 +78,6 @@ fetch('doppio.zip')
                   () => {button.id = 'runButton';}
                 );
               }
-              else
-                button.id = 'runButton';
             });
           });
         });
