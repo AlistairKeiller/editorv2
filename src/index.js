@@ -1,3 +1,4 @@
+import './style.css';
 import { Doc } from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
