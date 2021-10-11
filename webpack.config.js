@@ -1,7 +1,9 @@
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin'), path = require('path'), webpack = require('webpack');
+
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: require('path').resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'app.js'
   },
   module: {
@@ -13,7 +15,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new require('monaco-editor-webpack-plugin')(),
-    new require('webpack').ProvidePlugin({ BrowserFS: require.resolve('browserfs'))
+    new MonacoWebpackPlugin(),
+    new webpack.ProvidePlugin({ BrowserFS: require.resolve('browserfs') })
   ]
 };
