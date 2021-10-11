@@ -21,7 +21,7 @@ monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-fetch('https://plasma-umass.org/doppio-demo/doppio_home.zip')
+fetch('doppio.zip')
   .then(d => d.arrayBuffer())
   .then(d => {
     const fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
@@ -43,13 +43,13 @@ fetch('https://plasma-umass.org/doppio-demo/doppio_home.zip')
       });
     }
 
-//     process.initializeTTYs();
-//     process.stdout.on('data', d => {
-//       console.log(d.toString());
-//     });
-//     process.stderr.on('data', d => {
-//       console.log(d.toString());
-//     });
+    process.initializeTTYs();
+    process.stdout.on('data', d => {
+      console.log(d.toString());
+    });
+    process.stderr.on('data', d => {
+      console.log(d.toString());
+    });
 
     var mfs = new BrowserFS.FileSystem.MountableFileSystem();
     mfs.mount('/zip_home', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
@@ -58,14 +58,20 @@ fetch('https://plasma-umass.org/doppio-demo/doppio_home.zip')
     BrowserFS.initialize(mfs);
     copyDir('/zip_home', '/home');
     
-//     var button = document.getElementById('loadButton');
-//     button.id = 'runButton';
-    
     Doppio.VM.CLI(
-      ['/home/classes/demo/Chatterbot'],
-      {doppioHomePath: '/home'}
+      ['/home/oldJavac', '/home/Javac.java'],
+      {doppioHomePath: '/home'},
+      () => {
+        fs.readFile('/home/Javac.class', (e, d) =>{
+          console.log(e);
+          console.log(d.toString());
+          mEditor.setValue(d.toString());
+        });
+      }
     );
     
+    // var button = document.getElementById('loadButton');
+    // button.id = 'runButton';
     // button.onclick = () => {
     //   if (button.id === 'runButton'){
     //     console.log(mEditor.getValue())
