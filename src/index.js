@@ -66,28 +66,26 @@ fetch('doppio.zip')
       command = '';
     button.id = 'runButton';
     button.onclick = () => {
-      if (button.id === 'runButton') {
-        button.id = 'compilingButton';
-        fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
-          VM.CLI(
-            ['/tmp/Javac', '/tmp/Main.java'],
-            { doppioHomePath: '/tmp' },
-            () => {
-              fs.readFile('/tmp/Main.class', (e) => {
-                if (e) button.id = 'runButton';
-                else {
-                  button.id = 'runningButton';
-                  term.clear();
-                  command = '';
-                  VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
-                    button.id = 'runButton';
-                  });
-                }
-              });
-            }
-          );
-        });
-      }
+      button.id = 'compilingButton';
+      fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
+        VM.CLI(
+          ['/tmp/Javac', '/tmp/Main.java'],
+          { doppioHomePath: '/tmp' },
+          () => {
+            fs.readFile('/tmp/Main.class', (e) => {
+              if (e) button.id = 'runButton';
+              else {
+                button.id = 'runningButton';
+                term.clear();
+                command = '';
+                VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
+                  button.id = 'runButton';
+                });
+              }
+            });
+          }
+        );
+      });
     };
     term.onData((e) => {
       if (button.id === 'runningButton') {
