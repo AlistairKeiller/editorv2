@@ -30,30 +30,6 @@ term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
-var prompt = 'testing: ',
-  command = '';
-term.write(prompt);
-
-term.onData((e) => {
-  switch (e) {
-    case '\r': // Enter
-      console.log(command);
-      command = '';
-      term.writeln('');
-      term.write(prompt);
-      break;
-    case '\u007F': // Backspace (DEL)
-      if (command.length > 0) {
-        term.write('\b \b');
-        command = command.substr(0, command.length - 1);
-      }
-      break;
-    default:
-      command += e;
-      term.write(e);
-  }
-});
-
 fetch('doppio.zip')
   .then((d) => d.arrayBuffer())
   .then((d) => {
@@ -80,14 +56,6 @@ fetch('doppio.zip')
       });
     }
 
-    process.initializeTTYs();
-    process.stdout.on('data', (d) => {
-      console.log(d.toString());
-    });
-    process.stderr.on('data', (d) => {
-      console.log(d.toString());
-    });
-
     var mfs = new BrowserFS.FileSystem.MountableFileSystem();
     mfs.mount('/zip', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
     mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
@@ -95,7 +63,7 @@ fetch('doppio.zip')
     copyDir('/zip', '/tmp');
 
     var button = document.getElementById('loadButton');
-    button.id = 'runButton';
+    (button.id = 'runButton'), (command = '');
     button.onclick = () => {
       if (button.id === 'runButton') {
         button.id = 'compilingButton';
@@ -108,13 +76,11 @@ fetch('doppio.zip')
                 if (e) button.id = 'runButton';
                 else {
                   button.id = 'runningButton';
-                  VM.CLI(
-                    ['/tmp/Main'],
-                    { doppioHomePath: '/tmp' },
-                    () => {
-                      button.id = 'runButton';
-                    }
-                  );
+                  term.clear();
+                  command = '';
+                  VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
+                    button.id = 'runButton';
+                  });
                 }
               });
             }
@@ -122,4 +88,32 @@ fetch('doppio.zip')
         });
       }
     };
+    term.onData((e) => {
+      if (button.id === 'runningButton') {
+        switch (e) {
+          case '\r': // Enter
+            process.stdin.write(command);
+            command = '';
+            term.writeln('');
+            break;
+          case '\u007F': // Backspace (DEL)
+            if (command.length > 0) {
+              term.write('\b \b');
+              command = command.substr(0, command.length - 1);
+            }
+            break;
+          default:
+            command += e;
+            term.write(e);
+        }
+      }
+
+      process.initializeTTYs();
+      process.stdout.on('data', (d) => {
+        term.write(d);
+      });
+      process.stderr.on('data', (d) => {
+        term.write(d);
+      });
+    });
   });
