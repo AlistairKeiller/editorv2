@@ -30,6 +30,26 @@ term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
+command = '';
+term.onData((e) => {
+  switch (e) {
+    case '\r': // Enter
+      process.stdin.write(command);
+      command = '';
+      term.writeln('');
+      break;
+    case '\u007F': // Backspace (DEL)
+      if (command.length > 0) {
+        term.write('\b \b');
+        command = command.substr(0, command.length - 1);
+      }
+      break;
+    default:
+      command += e;
+      term.write(e);
+  }
+});
+
 fetch('doppio.zip')
   .then((d) => d.arrayBuffer())
   .then((d) => {
@@ -62,8 +82,7 @@ fetch('doppio.zip')
     BrowserFS.initialize(mfs);
     copyDir('/zip', '/tmp');
 
-    var button = document.getElementById('loadButton'),
-      command = '';
+    var button = document.getElementById('loadButton');
     button.id = 'runButton';
     button.onclick = () => {
       button.id = 'compilingButton';
@@ -76,7 +95,6 @@ fetch('doppio.zip')
               if (e) button.id = 'runButton';
               else {
                 button.id = 'runningButton';
-                command = '';
                 VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
                   button.id = 'runButton';
                 });
@@ -86,35 +104,13 @@ fetch('doppio.zip')
         );
       });
     };
-    term.onData((e) => {
-      if (button.id === 'runningButton') {
-        switch (e) {
-          case '\r': // Enter
-            process.stdin.write(command);
-            command = '';
-            term.writeln('');
-            break;
-          case '\u007F': // Backspace (DEL)
-            if (command.length > 0) {
-              term.write('\b \b');
-              command = command.substr(0, command.length - 1);
-            }
-            break;
-          default:
-            command += e;
-            term.write(e);
-        }
-      }
-    });
     process.initializeTTYs();
     process.stdout.on('data', (d) => {
       console.log(d);
       term.write(d);
-      command = '';
     });
     process.stderr.on('data', (d) => {
       console.log(d);
       term.write(d);
-      command = '';
     });
   });
