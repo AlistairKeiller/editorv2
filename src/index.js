@@ -62,7 +62,8 @@ fetch('doppio.zip')
     BrowserFS.initialize(mfs);
     copyDir('/zip', '/tmp');
 
-    var button = document.getElementById('loadButton'), command = '';;
+    var button = document.getElementById('loadButton'),
+      command = '';
     button.id = 'runButton';
     button.onclick = () => {
       button.id = 'compilingButton';
