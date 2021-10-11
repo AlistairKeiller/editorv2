@@ -76,7 +76,6 @@ fetch('doppio.zip')
               if (e) button.id = 'runButton';
               else {
                 button.id = 'runningButton';
-                term.clear();
                 command = '';
                 VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
                   button.id = 'runButton';
@@ -109,10 +108,12 @@ fetch('doppio.zip')
 
       process.initializeTTYs();
       process.stdout.on('data', (d) => {
+        console.log(d);
         term.write(d);
         command = '';
       });
       process.stderr.on('data', (d) => {
+        console.log(d);
         term.write(d);
         command = '';
       });
