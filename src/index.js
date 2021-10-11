@@ -86,7 +86,7 @@ fetch('doppio.zip')
     };
     process.initializeTTYs();
     process.stdout.on('data', (d) => {
-      var split = d.split('\u000A');
+      var split = d.toString().split('\u000A');
       for(var i = 0; i < split.length - 1; i++)
         term.writeln(split[i]);
       term.write(split[split.length - 1]);
