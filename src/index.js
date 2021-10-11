@@ -44,9 +44,11 @@ term.onData((e) => {
         command = command.substr(0, command.length - 1);
       }
       break;
-    default:
-      command += e;
-      term.write(e);
+    default: // Print all other characters for demo
+      if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7B)) {
+        command += e;
+        term.write(e);
+      }
   }
 });
 
