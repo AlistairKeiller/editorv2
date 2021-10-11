@@ -92,6 +92,7 @@ fetch('doppio.zip')
       term.write(split[split.length - 1]);
     });
     process.stderr.on('data', (d) => {
+      console.log("error");
       var split = d.toString().split('\u000A');
       for(var i = 0; i < split.length - 1; i++)
         term.writeln(split[i]);
