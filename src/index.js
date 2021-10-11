@@ -30,28 +30,6 @@ term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
-var command = '';
-term.onData((e) => {
-  switch (e) {
-    case '\r': // Enter
-      process.stdin.write(command);
-      command = '';
-      term.writeln('');
-      break;
-    case '\u007F': // Backspace (DEL)
-      if (command.length > 0) {
-        term.write('\b \b');
-        command = command.substr(0, command.length - 1);
-      }
-      break;
-    default: // Print all other characters for demo
-      if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7B)) {
-        command += e;
-        term.write(e);
-      }
-  }
-});
-
 fetch('doppio.zip')
   .then((d) => d.arrayBuffer())
   .then((d) => {
@@ -115,4 +93,25 @@ fetch('doppio.zip')
       console.log(d);
       term.write(d);
     });
+  var command = '';
+  term.onData((e) => {
+    switch (e) {
+      case '\r': // Enter
+        process.stdin.write(command);
+        command = '';
+        term.writeln('');
+        break;
+      case '\u007F': // Backspace (DEL)
+        if (command.length > 0) {
+          term.write('\b \b');
+          command = command.substr(0, command.length - 1);
+        }
+        break;
+      default: // Print all other characters for demo
+        if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7B)) {
+          command += e;
+          term.write(e);
+        }
+    }
+  });
   });
