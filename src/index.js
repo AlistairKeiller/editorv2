@@ -5,7 +5,7 @@ import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
-import * as Doppio from 'doppiojvm';
+import { VM } from 'doppiojvm';
 
 const ydoc = new Doc(),
   provider = new WebrtcProvider(window.location.pathname, ydoc),
@@ -100,7 +100,7 @@ fetch('doppio.zip')
       if (button.id === 'runButton') {
         button.id = 'compilingButton';
         fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
-          Doppio.VM.CLI(
+          VM.CLI(
             ['/tmp/Javac', '/tmp/Main.java'],
             { doppioHomePath: '/tmp' },
             () => {
@@ -108,7 +108,7 @@ fetch('doppio.zip')
                 if (e) button.id = 'runButton';
                 else {
                   button.id = 'runningButton';
-                  Doppio.VM.CLI(
+                  VM.CLI(
                     ['/tmp/Main'],
                     { doppioHomePath: '/tmp' },
                     () => {
