@@ -110,9 +110,11 @@ fetch('doppio.zip')
       process.initializeTTYs();
       process.stdout.on('data', (d) => {
         term.write(d);
+        command = '';
       });
       process.stderr.on('data', (d) => {
         term.write(d);
+        command = '';
       });
     });
   });
