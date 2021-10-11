@@ -52,43 +52,29 @@ fetch('doppio.zip')
     });
 
     var mfs = new BrowserFS.FileSystem.MountableFileSystem();
-    mfs.mount('/zip_home', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
-    mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
+    mfs.mount('/zip', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
     mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
     BrowserFS.initialize(mfs);
-    copyDir('/zip_home', '/home');
+    copyDir('/zip', '/tmp');
     
-    Doppio.VM.CLI(
-      ['/home/oldJavac', '/home/Javac.java'],
-      {doppioHomePath: '/home'},
-      () => {
-        fs.readFile('/home/Javac.class', (e, d) =>{
-          console.log(e);
-          console.log(d.toString());
-          mEditor.setValue(d.toString());
+    var button = document.getElementById('loadButton');
+    button.id = 'runButton';
+    button.onclick = () => {
+      if (button.id === 'runButton'){
+        button.id = 'compilingButton';
+        fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
+          button.id = 'runningButton';
+          Doppio.VM.CLI(
+          ['/tmp/Javac', '/tmp/Main.java'],
+          {doppioHomePath: '/tmp'}, 
+          e => {
+            Doppio.VM.CLI(
+              ['/tmp/Main'],
+              {doppioHomePath: '/tmp'},
+              () => {button.id = 'runButton';}
+            );
+          });
         });
       }
-    );
-    
-    // var button = document.getElementById('loadButton');
-    // button.id = 'runButton';
-    // button.onclick = () => {
-    //   if (button.id === 'runButton'){
-    //     console.log(mEditor.getValue())
-    //     button.id = 'runningButton';
-    //     fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
-    //       Doppio.VM.CLI(
-    //       ['/home/Javac', '/tmp/Main.java'],
-    //       {doppioHomePath: '/home'}, 
-    //       e => {
-    //         if (e === 0)
-    //           Doppio.VM.CLI(
-    //             ['/tmp/Main'],
-    //             {doppioHomePath: '/home'},
-    //             () => {button.id = 'runButton';}
-    //           );
-    //     });
-    //     });
-    //   }
-    // }
+    }
     });
