@@ -87,10 +87,12 @@ fetch('doppio.zip')
     process.initializeTTYs();
     process.stdout.on('data', (d) => {
       console.log(d.toString());
+      console.log(d.toString() == '\u000A');
       term.write(d);
     });
     process.stderr.on('data', (d) => {
       console.log(d.toString());
+      console.log(d.toString() == '\u000A');
       term.write(d);
     });
   var command = '';
