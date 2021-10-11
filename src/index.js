@@ -22,14 +22,6 @@ function copyDir(src, dest) {
     });
   });
 }
-  
-function extract(data, fs) {
-  var mfs = new BrowserFS.FileSystem.MountableFileSystem();
-  mfs.mount('/ziped', new BrowserFS.FileSystem.ZipFS(new Buffer(data)));
-  mfs.mount('/unziped', fs);
-  BrowserFS.initialize(mfs);
-  copyDir('/ziped', '/unziped');
-}
 
 var ydoc = new Doc(),
 provider = new WebrtcProvider(window.location.pathname, ydoc),
@@ -49,7 +41,7 @@ monacoBinding = new MonacoBinding(
   provider.awareness
 );
 
-fetch('doppio_home.zip')
+fetch('doppio.zip')
   .then(r => r.arrayBuffer())
   .then(d => {
     process.initializeTTYs();
@@ -60,11 +52,12 @@ fetch('doppio_home.zip')
       console.log(data.toString());
     });
   
-    var home = new BrowserFS.FileSystem.InMemory(), mfs = new BrowserFS.FileSystem.MountableFileSystem();
-    extract(d, home);
-    mfs.mount('/home', home);
+    var mfs = new BrowserFS.FileSystem.MountableFileSystem();
+    mfs.mount('/ziped', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
+    mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
     mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
     BrowserFS.initialize(mfs);
+    copyDir('/ziped', '/home');
     
     var button = document.getElementById('loadButton');
     button.id = 'runButton';
