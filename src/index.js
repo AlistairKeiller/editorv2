@@ -30,7 +30,7 @@ term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
-command = '';
+var command = '';
 term.onData((e) => {
   switch (e) {
     case '\r': // Enter
