@@ -105,17 +105,16 @@ fetch('doppio.zip')
             term.write(e);
         }
       }
-
-      process.initializeTTYs();
-      process.stdout.on('data', (d) => {
-        console.log(d);
-        term.write(d);
-        command = '';
-      });
-      process.stderr.on('data', (d) => {
-        console.log(d);
-        term.write(d);
-        command = '';
-      });
+    });
+    process.initializeTTYs();
+    process.stdout.on('data', (d) => {
+      console.log(d);
+      term.write(d);
+      command = '';
+    });
+    process.stderr.on('data', (d) => {
+      console.log(d);
+      term.write(d);
+      command = '';
     });
   });
