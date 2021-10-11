@@ -58,11 +58,8 @@ fetch('doppio_home.zip')
       console.log(data.toString());
     });
   
-    home = new BrowserFS.FileSystem.InMemory();
-  
+    var home = new BrowserFS.FileSystem.InMemory(), mfs = new BrowserFS.FileSystem.MountableFileSystem();
     extract(d, home);
-
-    var mfs = new BrowserFS.FileSystem.MountableFileSystem();
     mfs.mount('/home', home);
     mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
     BrowserFS.initialize(mfs);
