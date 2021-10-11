@@ -86,14 +86,16 @@ fetch('doppio.zip')
     };
     process.initializeTTYs();
     process.stdout.on('data', (d) => {
-      console.log(d.toString());
-      console.log(d.toString() == '\u000A');
-      term.write(d);
+      if (d.toString() == '\u000A')
+        term.writeln('');
+      else
+        term.write(d);
     });
     process.stderr.on('data', (d) => {
-      console.log(d.toString());
-      console.log(d.toString() == '\u000A');
-      term.write(d);
+      if (d.toString() == '\u000A')
+        term.writeln('');
+      else
+        term.write(d);
     });
   var command = '';
   term.onData((e) => {
