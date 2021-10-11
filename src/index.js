@@ -63,16 +63,22 @@ fetch('doppio.zip')
       if (button.id === 'runButton'){
         button.id = 'compilingButton';
         fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
-          button.id = 'runningButton';
           Doppio.VM.CLI(
           ['/tmp/Javac', '/tmp/Main.java'],
           {doppioHomePath: '/tmp'}, 
           e => {
-            Doppio.VM.CLI(
-              ['/tmp/Main'],
-              {doppioHomePath: '/tmp'},
-              () => {button.id = 'runButton';}
-            );
+            fs.readFile('/tmp/Main.class', e => {
+              if (e){
+                button.id = 'runningButton';
+                Doppio.VM.CLI(
+                  ['/tmp/Main'],
+                  {doppioHomePath: '/tmp'},
+                  () => {button.id = 'runButton';}
+                );
+              }
+              else
+                button.id = 'runButton';
+            });
           });
         });
       }
