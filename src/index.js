@@ -86,11 +86,11 @@ fetch('doppio.zip')
     };
     process.initializeTTYs();
     process.stdout.on('data', (d) => {
-      console.log(d);
+      console.log(d.toString());
       term.write(d);
     });
     process.stderr.on('data', (d) => {
-      console.log(d);
+      console.log(d.toString());
       term.write(d);
     });
   var command = '';
