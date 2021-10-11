@@ -3,9 +3,11 @@ import { Doc } from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from 'monaco-editor';
+import { Terminal } from 'xterm';
+import { FitAddon } from 'xterm-addon-fit';
 import * as Doppio from 'doppiojvm';
 
-var ydoc = new Doc(),
+const ydoc = new Doc(),
 provider = new WebrtcProvider(window.location.pathname, ydoc),
 mEditor = editor.create(document.getElementById('monaco-editor'), {
   language: 'java',
@@ -21,6 +23,37 @@ monacoBinding = new MonacoBinding(
   new Set([mEditor]),
   provider.awareness
 );
+
+const term = new Terminal(),
+  fitAddon = new FitAddon();
+term.loadAddon(fitAddon);
+term.open(document.getElementById('terminal'));
+fitAddon.fit();
+
+var prompt = 'testing: ',
+  command = '';
+term.write(prompt);
+
+term.onData((e) => {
+  switch (e) {
+    case '\r': // Enter
+      console.log(command);
+      command = '';
+      term.writeln('');
+      term.write(prompt);
+      break;
+    case '\u007F': // Backspace (DEL)
+      if (command.length > 0) {
+        term.write('\b \b');
+        command = command.substr(0, command.length - 1);
+      }
+      break;
+    default:
+      command += e;
+      term.write(e);
+  }
+});
+
 
 fetch('doppio.zip')
   .then(d => d.arrayBuffer())
