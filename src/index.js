@@ -68,7 +68,7 @@ fetch('doppio.zip')
     button.onclick = () => {
       if (button.id == 'runButton'){
         button.id = 'compilingButton';
-        term.clear();
+        term.reset();
         command = '';
         fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
           VM.CLI(
