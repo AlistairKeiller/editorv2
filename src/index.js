@@ -66,31 +66,33 @@ fetch('doppio.zip')
       command = '';
     button.id = 'runButton';
     button.onclick = () => {
-      button.id = 'compilingButton';
-      term.clear();
-      command = '';
-      fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
-        VM.CLI(
-          ['/tmp/Javac', '/tmp/Main.java'],
-          { doppioHomePath: '/tmp' },
-          () => {
-            fs.readFile('/tmp/Main.class', (e) => {
-              if (e)
-                fs.unlink('/tmp/Main.class', () => {
-                  button.id = 'runButton';
-                });
-              else {
-                button.id = 'runningButton';
-                VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
+      if (button.id == 'runButton'){
+        button.id = 'compilingButton';
+        term.clear();
+        command = '';
+        fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
+          VM.CLI(
+            ['/tmp/Javac', '/tmp/Main.java'],
+            { doppioHomePath: '/tmp' },
+            () => {
+              fs.readFile('/tmp/Main.class', (e) => {
+                if (e)
                   fs.unlink('/tmp/Main.class', () => {
                     button.id = 'runButton';
                   });
-                });
-              }
-            });
-          }
-        );
-      });
+                else {
+                  button.id = 'runningButton';
+                  VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp' }, () => {
+                    fs.unlink('/tmp/Main.class', () => {
+                      button.id = 'runButton';
+                    });
+                  });
+                }
+              });
+            }
+          );
+        });
+      }
     };
     process.initializeTTYs();
     process.stdout.on('data', (d) => {
