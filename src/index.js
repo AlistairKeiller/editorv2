@@ -108,7 +108,7 @@ fetch('doppio.zip')
     term.onData((e) => {
       switch (e) {
         case '\r': // Enter
-          process.stdin.write(command);
+          process.stdin.write(command + '\n');
           command = '';
           term.writeln('');
           break;
