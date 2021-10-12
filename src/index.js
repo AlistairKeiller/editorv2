@@ -58,9 +58,10 @@ fetch('doppio.zip')
 
     var mfs = new BrowserFS.FileSystem.MountableFileSystem();
     mfs.mount('/zip', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
+    mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
     mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
     BrowserFS.initialize(mfs);
-    copyDir('/zip', '/tmp');
+    copyDir('/zip', '/home');
 
     var button = document.getElementById('loadButton'),
       command = '';
@@ -72,17 +73,18 @@ fetch('doppio.zip')
         command = '';
         fs.writeFile('/tmp/Main.java', mEditor.getValue(), () => {
           VM.CLI(
-            ['/tmp/Javac', '/tmp/Main.java'],
-            { doppioHomePath: '/tmp' },
+            ['/home/Javac', '/tmp/Main.java'],
+            { doppioHomePath: '/home' },
             () => {
               fs.readFile('/tmp/Main.class', (e) => {
                 if (e)
-                  fs.unlink('/tmp/Main.class', () => {
-                    button.id = 'runButton';
-                  });
+                  button.id = 'runButton';
                 else {
+                  fs.readFile('/tmp/Change.class', (e, d) => {
+                    console.log(d);
+                  });
                   button.id = 'runningButton';
-                  VM.CLI(['/tmp/Main'], { doppioHomePath: '/tmp', classpath: ['.'] }, () => {
+                  VM.CLI(['/tmp/Main'], { doppioHomePath: '/home' }, () => {
                     fs.unlink('/tmp/Main.class', () => {
                       button.id = 'runButton';
                     });
