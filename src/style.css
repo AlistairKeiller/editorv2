@@ -1,13 +1,13 @@
 #monaco-editor {
   position: absolute;
   height: 100%;
-  width: 70%;
+  width: 60%;
 }
 #terminal {
-  margin-left: 70%;
+  margin-left: 60%;
   position: absolute;
   height: 100%;
-  width: 30%;
+  width: 40%;
 }
 
 /* default yjs css */
