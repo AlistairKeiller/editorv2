@@ -1,7 +1,7 @@
 #monaco-editor {
   position: absolute;
   height: 100%;
-  width: 50%;
+  width: 70%;
 }
 .yRemoteSelection {
   background-color: rgb(250, 129, 0, 0.5);
@@ -14,10 +14,10 @@
 }
 
 #terminal {
-  margin-left: 50%;
+  margin-left: 70%;
   position: absolute;
   height: 100%;
-  width: 50%;
+  width: 30%;
 }
 
 .xterm {
