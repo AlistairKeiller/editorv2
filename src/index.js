@@ -86,7 +86,7 @@ fetch('doppio.zip')
                     console.log(d);
                   });
                   button.id = 'runningButton';
-                  VM.CLI(['/tmp/Main'], { doppioHomePath: '/home' }, () => {
+                  VM.CLI(['/tmp/Main'], { doppioHomePath: '/home', classpath: [ '/tmp' ] }, () => {
                     fs.unlink('/tmp/Main.class', () => {
                       button.id = 'runButton';
                     });
