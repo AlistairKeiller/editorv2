@@ -24,7 +24,11 @@ const ydoc = new Doc(),
     provider.awareness
   );
 
-const term = new Terminal(),
+const term = new Terminal({
+    fontFamily: '"Cascadia Code", Menlo, monospace',
+    theme: { background: '#1e1e1e' },
+    cursorBlink: true,
+  }),
   fitAddon = new FitAddon();
 term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
@@ -67,7 +71,7 @@ fetch('doppio.zip')
       command = '';
     button.id = 'runButton';
     button.onclick = () => {
-      if (button.id == 'runButton'){
+      if (button.id == 'runButton') {
         button.id = 'compilingButton';
         term.reset();
         command = '';
@@ -77,8 +81,7 @@ fetch('doppio.zip')
             { doppioHomePath: '/home' },
             () => {
               fs.readFile('/tmp/Main.class', (e) => {
-                if (e)
-                  button.id = 'runButton';
+                if (e) button.id = 'runButton';
                 else {
                   fs.readFile('/tmp/Change.class', (e, d) => {
                     console.log(d);
