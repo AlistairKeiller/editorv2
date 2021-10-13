@@ -12,10 +12,6 @@ const ydoc = new Doc(),
   mEditor = editor.create(document.getElementById('monaco-editor'), {
     language: 'java',
     theme: 'vs-dark',
-    wordWrap: 'on',
-    minimap: {
-      enabled: false,
-    },
   }),
   monacoBinding = new MonacoBinding(
     ydoc.getText(),
