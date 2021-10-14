@@ -34,14 +34,14 @@ fitAddon.fit();
 
 const worker = new Worker(new URL('./worker.js',
   import.meta.url));
+button.onclick = () => {
+  button.id = 'runningButton';
+  worker.postMessage('compileAndRun');
+};
 worker.onmessage = (e) => {
   switch (e.data[0]) {
     case 'changeToRunButton':
       button.id = 'runButton';
-      button.onclick = () => {
-        button.id = 'runningButton';
-        worker.postMessage('compileAndRun');
-      };
       break;
     default:
       console.log('default in main from: ' + e.data);
