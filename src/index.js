@@ -26,14 +26,14 @@ const ydoc = new Doc(),
     theme: { background: '#1e1e1e' },
     cursorBlink: true,
   }),
-  fitAddon = new FitAddon(),
-  button = document.getElementById('loadButton');
+  fitAddon = new FitAddon();
 term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
 const worker = new Worker(new URL('./worker.js',
-  import.meta.url));
+    import.meta.url)),
+  button = document.getElementById('loadButton');
 button.onclick = () => {
   button.id = 'runningButton';
   worker.postMessage('compileAndRun');
