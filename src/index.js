@@ -31,12 +31,14 @@ term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
-const worker = new Worker(new URL('./worker.js',
-    import.meta.url)),
-  button = document.getElementById('loadButton');
+const button = document.getElementById('loadButton'),
+  worker = new Worker(new URL('./worker.js',
+    import.meta.url));
 button.onclick = () => {
-  button.id = 'runningButton';
-  worker.postMessage('compileAndRun');
+  if (button.id == 'runButton') {
+    button.id = 'runningButton';
+    worker.postMessage('compileAndRun');
+  }
 };
 worker.onmessage = (e) => {
   switch (e.data[0]) {
