@@ -1,24 +1,24 @@
 var http = require('http'),
   fs = require('fs'),
   mime = require('mime'),
-  fileMap = new Map();
+  fileMap = {};
 
 function createServer() {
   http
     .createServer((req, res) => {
-      file = req.url.substring(1);
-      if (!fileMap.has(file)) file = 'index.html';
-      res.setHeader('Content-Type', fileMap.get(file).mime);
-      res.end(fileMap.get(file).data);
+      var file = req.url.substring(1);
+      if (!fileMap.hasOwnProperty(file)) file = 'index.html';
+      res.setHeader('Content-Type', fileMap[file].mime);
+      res.end(fileMap[file].data);
     })
-    .listen(80);
+    .listen(8080);
 }
 
 fs.readdir(__dirname, (e, files) => {
   files.forEach((file) => {
     fs.readFile(file, (e, d) => {
-      fileMap.set(file, { data: d, mime: mime.getType(file) });
-      if (fileMap.size === files.length) createServer();
+      fileMap[file] = { data: d, mime: mime.getType(file) };
+      if (Object.keys(fileMap).length === files.length) createServer();
     });
   });
 });
