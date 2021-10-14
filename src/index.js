@@ -21,9 +21,8 @@ const ydoc = new Doc(),
     mEditor.getModel(),
     new Set([mEditor]),
     provider.awareness
-  );
-
-const term = new Terminal({
+  ),
+  term = new Terminal({
     fontFamily: '"Cascadia Code", Menlo, monospace',
     theme: { background: '#1e1e1e' },
     cursorBlink: true,
@@ -127,7 +126,8 @@ fetch('doppio.zip')
           }
           break;
         default:
-          if (e >= ' ' && e <= '~') { // all other visible characters
+          if (e >= ' ' && e <= '~') {
+            // all other visible characters
             term.write(e);
             command += e;
           }
