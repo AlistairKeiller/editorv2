@@ -116,9 +116,9 @@ fetch('doppio.zip')
     term.onData((e) => {
       switch (e) {
         case '\r': // Enter
+          term.writeln('');
           process.stdin.write(command + '\n');
           command = '';
-          term.writeln('');
           break;
         case '\u007F': // Backspace (DEL)
           if (command.length > 0) {
@@ -127,13 +127,9 @@ fetch('doppio.zip')
           }
           break;
         default:
-          // Print all other characters for demo
-          if (
-            e >= String.fromCharCode(0x20) &&
-            e <= String.fromCharCode(0x7b)
-          ) {
-            command += e;
+          if (e >= ' ' && e <= '~') { // all other visible characters
             term.write(e);
+            command += e;
           }
       }
     });
