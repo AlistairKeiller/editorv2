@@ -1,12 +1,24 @@
-var html,
-  fs = require('fs');
-fs.readFile('index.html', (err, data) => (html = data));
+var http = require('http'),
+  fs = require('fs'),
+  mime = require('mime'),
+  fileMap = new Map();
 
-require('http')
-  .createServer(function (req, res) {
-    fs.readFile(__dirname + req.url, function (err, data) {
-      if (err) res.end(html);
-      else res.end(data);
+function createServer() {
+  http
+    .createServer((req, res) => {
+      file = req.url.substring(1);
+      if (!fileMap.has(file)) file = 'index.html';
+      res.setHeader('Content-Type', fileMap.get(file).mime);
+      res.end(fileMap.get(file).data);
+    })
+    .listen(80);
+}
+
+fs.readdir(__dirname, (e, files) => {
+  files.forEach((file) => {
+    fs.readFile(file, (e, d) => {
+      fileMap.set(file, { data: d, mime: mime.getType(file) });
+      if (fileMap.size === files.length) createServer();
     });
-  })
-  .listen(8080);
+  });
+});
