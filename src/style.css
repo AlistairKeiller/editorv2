@@ -3,47 +3,60 @@
   height: 100%;
   width: 60%;
 }
+
 #terminal {
   margin-left: 60%;
   position: absolute;
   height: 100%;
   width: 40%;
 }
+
 #runButton:before {
   content: 'Run \25B6';
 }
+
 #runButton {
   color: green;
   cursor: pointer;
 }
+
 #runButton:hover {
   background-color: green;
   color: white;
 }
+
 #compilingButton:before {
   content: 'compiling...';
 }
+
 #compilingButton {
   color: grey;
 }
+
 #compilingButton:hover {
   background-color: grey;
   color: white;
 }
+
 #runningButton:before {
   content: 'running...';
 }
+
 #runningButton {
   color: grey;
 }
+
 #runningButton:hover {
   background-color: grey;
   color: white;
 }
+
 /* default yjs css */
+
 .yRemoteSelection {
   background-color: rgb(250, 129, 0, 0.5);
 }
+
 .yRemoteSelectionHead {
   border-left: orange solid 2px;
   box-sizing: border-box;
@@ -52,21 +65,25 @@
 }
 
 /* default xterm css */
+
 .xterm {
   position: relative;
   user-select: none;
   -ms-user-select: none;
   -webkit-user-select: none;
 }
+
 .xterm.focus,
 .xterm:focus {
   outline: none;
 }
+
 .xterm .xterm-helpers {
   position: absolute;
   top: 0;
   z-index: 5;
 }
+
 .xterm .xterm-helper-textarea {
   padding: 0;
   border: 0;
@@ -82,6 +99,7 @@
   overflow: hidden;
   resize: none;
 }
+
 .xterm .composition-view {
   background: #000;
   color: #fff;
@@ -90,9 +108,11 @@
   white-space: nowrap;
   z-index: 1;
 }
+
 .xterm .composition-view.active {
   display: block;
 }
+
 .xterm .xterm-viewport {
   background-color: #000;
   overflow-y: scroll;
@@ -103,17 +123,21 @@
   top: 0;
   bottom: 0;
 }
+
 .xterm .xterm-screen {
   position: relative;
 }
+
 .xterm .xterm-screen canvas {
   position: absolute;
   left: 0;
   top: 0;
 }
+
 .xterm .xterm-scroll-area {
   visibility: hidden;
 }
+
 .xterm-char-measure-element {
   display: inline-block;
   visibility: hidden;
@@ -122,18 +146,23 @@
   left: -9999em;
   line-height: normal;
 }
+
 .xterm {
   cursor: text;
 }
+
 .xterm.enable-mouse-events {
   cursor: default;
 }
+
 .xterm.xterm-cursor-pointer {
   cursor: pointer;
 }
+
 .xterm.column-select.focus {
   cursor: crosshair;
 }
+
 .xterm .xterm-accessibility,
 .xterm .xterm-message {
   position: absolute;
@@ -144,6 +173,7 @@
   z-index: 10;
   color: transparent;
 }
+
 .xterm .live-region {
   position: absolute;
   left: -9999px;
@@ -151,12 +181,15 @@
   height: 1px;
   overflow: hidden;
 }
+
 .xterm-dim {
   opacity: 0.5;
 }
+
 .xterm-underline {
   text-decoration: underline;
 }
+
 .xterm-strikethrough {
   text-decoration: line-through;
 }
