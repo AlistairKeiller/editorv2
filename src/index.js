@@ -26,37 +26,49 @@ const ydoc = new Doc(),
     theme: { background: '#1e1e1e' },
     cursorBlink: true,
   }),
-  fitAddon = new FitAddon();
+  fitAddon = new FitAddon(),
+  worker = new Worker(new URL('./worker.js',
+    import.meta.url)),
+  button = document.getElementById('loadButton');
+
+
 term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
-const button = document.getElementById('loadButton'),
-  worker = new Worker(new URL('./worker.js',
-    import.meta.url));
-button.onclick = () => {
-  if (button.id == 'runButton') {
-    button.id = 'runningButton';
-    worker.postMessage('compileAndRun');
-  }
-};
+
 worker.onmessage = (e) => {
   switch (e.data[0]) {
-    case 'changeToRunButton':
-      button.id = 'runButton';
+    case 'changeButton':
+      button.id = e.data[1];
+      break;
+    case 'out':
+      var split = e.data[1].split('\u000A');
+      for (var i = 0; i < split.length - 1; i++) term.writeln(split[i]);
+      term.write(split[split.length - 1]);
       break;
     default:
       console.log('default in main from: ' + e.data);
   };
-}
+};
 worker.postMessage(['setup']);
+
+
+button.onclick = () => {
+  if (button.id == 'runButton') {
+    button.id = 'compilingButton';
+    term.reset();
+    worker.postMessage(['compileAndRun', mEditor.getValue()]);
+  }
+};
+
 
 var command = '';
 term.onData((e) => {
   switch (e) {
     case '\r': // Enter
       term.writeln('');
-      worker.postMessage(['stdin', command + '\n']);
+      worker.postMessage(['in', command]);
       command = '';
       break;
     case '': // Backspace (DEL)
