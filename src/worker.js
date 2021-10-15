@@ -63,7 +63,6 @@ onmessage = (e) => {
                 () => postMessage(['changeButton', 'runButton'])
               );
             }
-
           }
         );
       });

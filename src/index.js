@@ -52,16 +52,6 @@ worker.onmessage = (e) => {
 };
 worker.postMessage(['setup']);
 
-
-button.onclick = () => {
-  if (button.id == 'runButton' && mEditor.getValue() !== '') {
-    button.id = 'compilingButton';
-    term.reset();
-    worker.postMessage(['compileAndRun', mEditor.getValue()]);
-  }
-};
-
-
 var command = '';
 term.onData((e) => {
   switch (e) {
@@ -83,3 +73,12 @@ term.onData((e) => {
       }
   }
 });
+
+button.onclick = () => {
+  if (button.id == 'runButton' && mEditor.getValue() !== '') {
+    button.id = 'compilingButton';
+    term.reset();
+    command = '';
+    worker.postMessage(['compileAndRun', mEditor.getValue()]);
+  }
+};
