@@ -26,16 +26,15 @@ const ydoc = new Doc(),
     theme: { background: '#1e1e1e' },
     cursorBlink: true,
   }),
-  fitAddon = new FitAddon(),
-  worker = new Worker(new URL('./worker.js',
-    import.meta.url)),
-  button = document.getElementById('loadButton');
-
+  fitAddon = new FitAddon();
 
 term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
+const worker = new Worker(new URL('./worker.js',
+    import.meta.url)),
+  button = document.getElementById('loadButton');
 
 worker.onmessage = (e) => {
   switch (e.data[0]) {
@@ -55,7 +54,7 @@ worker.postMessage(['setup']);
 
 
 button.onclick = () => {
-  if (button.id == 'runButton') {
+  if (button.id == 'runButton' && mEditor.getValue() !== '') {
     button.id = 'compilingButton';
     term.reset();
     worker.postMessage(['compileAndRun', mEditor.getValue()]);

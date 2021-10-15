@@ -4,12 +4,14 @@ const fs = BrowserFS.BFSRequire('fs'),
   path = BrowserFS.BFSRequire('path'),
   Buffer = BrowserFS.BFSRequire('buffer').Buffer,
   process = BrowserFS.BFSRequire('process');
+var stderr;
 
 process.initializeTTYs();
 process.stdout.on('data', (d) => {
   postMessage(['out', d.toString()]);
 });
 process.stderr.on('data', (d) => {
+  stderr = true;
   postMessage(['out', d.toString()]);
 });
 
@@ -48,24 +50,20 @@ onmessage = (e) => {
         });
       break;
     case 'compileAndRun':
+      stderr = false;
       fs.writeFile('/tmp/Main.java', e.data[1], () => {
         VM.CLI(
           ['/home/Javac', '/tmp/Main.java'], { doppioHomePath: '/home' },
           () => {
-            fs.readFile('/tmp/Main.class', (e) => {
-              if (e) postMessage(['changeButton', 'runButton']);
-              else {
-                postMessage(['changeButton', 'runningButton']);
-                VM.CLI(
-                  ['/tmp/Main'], { doppioHomePath: '/home', classpath: ['/tmp'] },
-                  () => {
-                    fs.unlink('/tmp/Main.class', () => {
-                      postMessage(['changeButton', 'runButton']);
-                    });
-                  }
-                );
-              }
-            });
+            if (stderr) postMessage(['changeButton', 'runButton']);
+            else {
+              postMessage(['changeButton', 'runningButton']);
+              VM.CLI(
+                ['/tmp/Main'], { doppioHomePath: '/home', classpath: ['/tmp'] },
+                () => postMessage(['changeButton', 'runButton'])
+              );
+            }
+
           }
         );
       });
