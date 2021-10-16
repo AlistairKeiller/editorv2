@@ -7,7 +7,7 @@ function createServer() {
   http
     .createServer((req, res) => {
       var file = req.url.substring(1);
-      if (!fileMap.hasOwnProperty(file)) file = 'index.html';
+      if (!fileMap.hasOwnProperty(file)) file = '404.html';
       res.setHeader('Content-Type', fileMap[file].mime);
       res.end(fileMap[file].data);
     })
