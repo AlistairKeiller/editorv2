@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/AliCaliK1/editorv2#readme",
   "dependencies": {
-    "browserfs": "1.2.1",
+    "browserfs": "1.4.3",
     "css-loader": "^6.4.0",
     "doppiojvm": "^0.5.0",
     "monaco-editor": "^0.29.1",
