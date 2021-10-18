@@ -1,4 +1,10 @@
 {
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliCaliK1/editorv2.git"
+  },
+  "license": "ISC",
   "dependencies": {
     "browserfs": "1.2.1",
     "css-loader": "^6.4.0",
