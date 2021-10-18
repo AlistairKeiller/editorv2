@@ -1,21 +1,4 @@
 {
-  "name": "editorv2",
-  "version": "1.0.0",
-  "description": "",
-  "main": "webpack.config.js",
-  "scripts": {
-    "build": "./node_modules/webpack/bin/webpack.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AliCaliK1/editorv2.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AliCaliK1/editorv2/issues"
-  },
-  "homepage": "https://github.com/AliCaliK1/editorv2#readme",
   "dependencies": {
     "browserfs": "1.2.1",
     "css-loader": "^6.4.0",
