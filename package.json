@@ -1,0 +1,32 @@
+{
+  "name": "editorv2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliCaliK1/editorv2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AliCaliK1/editorv2/issues"
+  },
+  "homepage": "https://github.com/AliCaliK1/editorv2#readme",
+  "dependencies": {
+    "browserfs": "1.2.1",
+    "css-loader": "^6.4.0",
+    "doppiojvm": "^0.5.0",
+    "monaco-editor": "^0.29.1",
+    "monaco-editor-webpack-plugin": "^5.0.0",
+    "style-loader": "^3.3.0",
+    "xterm": "^4.14.1",
+    "xterm-addon-fit": "^0.5.0",
+    "y-monaco": "^0.1.2",
+    "y-webrtc": "^10.2.0",
+    "yjs": "^13.5.16"
+  }
+}
