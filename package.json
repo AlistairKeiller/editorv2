@@ -7,7 +7,7 @@
   "license": "ISC",
   "dependencies": {
     "browserfs": "1.2.1",
-    "css-loader": "6.4.0",
+    "css-loader": "6.5.0",
     "doppiojvm": "0.5.0",
     "monaco-editor": "0.29.1",
     "monaco-editor-webpack-plugin": "5.0.0",
