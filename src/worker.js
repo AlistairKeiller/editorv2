@@ -1,19 +1,6 @@
 import { VM } from 'doppiojvm';
 
-const fs = BrowserFS.BFSRequire('fs'),
-  path = BrowserFS.BFSRequire('path'),
-  Buffer = BrowserFS.BFSRequire('buffer').Buffer,
-  process = BrowserFS.BFSRequire('process');
-var stderr;
-
-process.initializeTTYs();
-process.stdout.on('data', (d) => {
-  postMessage(['out', d.toString()]);
-});
-process.stderr.on('data', (d) => {
-  stderr = true;
-  postMessage(['out', d.toString()]);
-});
+const fs = BrowserFS.BFSRequire('fs'), path = BrowserFS.BFSRequire('path'), Buffer = BrowserFS.BFSRequire('buffer').Buffer, process = BrowserFS.BFSRequire('process');
 
 function copyDir(src, dest) {
   fs.mkdir(dest, (e) => {
@@ -33,25 +20,35 @@ function copyDir(src, dest) {
   });
 }
 
+
+fetch('doppio.zip')
+  .then((d) => d.arrayBuffer())
+  .then((d) => {
+    var mfs = new BrowserFS.FileSystem.MountableFileSystem();
+    mfs.mount('/zip', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
+    mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
+    mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
+    BrowserFS.initialize(mfs);
+    copyDir('/zip', '/home');
+    mfs.umount('/zip');
+    postMessage(['changeButton', 'runButton']);
+  });
+
+var stderr;
+process.initializeTTYs();
+process.stdout.on('data', (d) => {
+  postMessage(['out', d.toString()]);
+});
+process.stderr.on('data', (d) => {
+  stderr = true;
+  postMessage(['out', d.toString()]);
+});
+
 onmessage = (e) => {
   switch (e.data[0]) {
-    case 'setup':
-      fetch('doppio.zip')
-        .then((d) => d.arrayBuffer())
-        .then((d) => {
-          var mfs = new BrowserFS.FileSystem.MountableFileSystem();
-          mfs.mount('/zip', new BrowserFS.FileSystem.ZipFS(new Buffer(d)));
-          mfs.mount('/home', new BrowserFS.FileSystem.InMemory());
-          mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
-          BrowserFS.initialize(mfs);
-          copyDir('/zip', '/home');
-          mfs.umount('/zip');
-          postMessage(['changeButton', 'runButton']);
-        });
-      break;
     case 'compileAndRun':
-      stderr = false;
       fs.writeFile('/tmp/Main.java', e.data[1], () => {
+        stderr = false;
         VM.CLI(
           ['/home/Javac', '/tmp/Main.java'], { doppioHomePath: '/home' },
           () => {
