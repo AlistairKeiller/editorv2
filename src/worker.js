@@ -21,6 +21,7 @@ function copyDir(src, dest) {
 }
 
 
+console.log('worker started');
 fetch('doppio.zip')
   .then((d) => d.arrayBuffer())
   .then((d) => {
