@@ -6,7 +6,6 @@ import { editor } from 'monaco-editor';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 
-console.log('test1');
 const ydoc = new Doc(),
   provider = new WebrtcProvider(window.location.pathname, ydoc),
   mEditor = editor.create(document.getElementById('monaco-editor'), {
@@ -28,12 +27,12 @@ const ydoc = new Doc(),
     cursorBlink: true,
   }),
   fitAddon = new FitAddon();
-console.log('test2');
+
 term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
-console.log('worker message sent');
+
 const worker = new Worker(new URL('./worker.js', import.meta.url)), button = document.getElementById('loadButton');
 
 worker.onmessage = (e) => {
