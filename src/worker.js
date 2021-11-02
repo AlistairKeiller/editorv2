@@ -32,6 +32,7 @@ fetch('doppio.zip')
     copyDir('/zip', '/home');
     mfs.umount('/zip');
     postMessage(['changeButton', 'runButton']);
+    console.log('worker loaded');
   });
 
 var stderr;
