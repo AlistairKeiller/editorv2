@@ -32,6 +32,7 @@ term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
+console.log('worker message sent');
 const worker = new Worker(new URL('./worker.js', import.meta.url)), button = document.getElementById('loadButton');
 
 worker.onmessage = (e) => {
