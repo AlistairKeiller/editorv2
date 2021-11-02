@@ -33,7 +33,7 @@ term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
 const worker = new Worker(new URL('./worker.js',
-    import.meta.url)),
+  import.meta.url)),
   button = document.getElementById('loadButton');
 
 worker.onmessage = (e) => {
@@ -50,7 +50,7 @@ worker.onmessage = (e) => {
       console.log('default in main from: ' + e.data);
   };
 };
-worker.postMessage(['setup']);
+
 
 var command = '';
 term.onData((e) => {
