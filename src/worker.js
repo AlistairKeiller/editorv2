@@ -21,7 +21,6 @@ function copyDir(src, dest) {
 }
 
 
-console.log('worker started');
 fetch('doppio.zip')
   .then((d) => d.arrayBuffer())
   .then((d) => {
@@ -31,9 +30,8 @@ fetch('doppio.zip')
     mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
     BrowserFS.initialize(mfs);
     copyDir('/zip', '/home');
-    mfs.umount('/zip');
     postMessage(['changeButton', 'runButton']);
-    console.log('worker loaded');
+    mfs.umount('/zip');
   });
 
 var stderr;
