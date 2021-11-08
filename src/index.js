@@ -8,7 +8,6 @@ import { FitAddon } from 'xterm-addon-fit';
 
 
 const ydoc = new Doc();
-console.log(window.location.pathname);
 const provider = new WebrtcProvider(window.location.pathname, ydoc);
 const type = ydoc.getText('monaco');
 
