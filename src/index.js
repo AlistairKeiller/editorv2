@@ -6,35 +6,41 @@ import { editor } from 'monaco-editor';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 
-const ydoc = new Doc(),
-  provider = new WebrtcProvider(window.location.pathname, ydoc),
-  mEditor = editor.create(document.getElementById('monaco-editor'), {
-    language: 'java',
-    theme: 'vs-dark',
-    minimap: {
-      enabled: false,
-    },
-  }),
-  monacoBinding = new MonacoBinding(
-    ydoc.getText(),
-    mEditor.getModel(),
-    new Set([mEditor]),
-    provider.awareness
-  ),
-  term = new Terminal({
-    fontFamily: '"Cascadia Code", Menlo, monospace',
-    theme: { background: '#1e1e1e' },
-    cursorBlink: true,
-  }),
-  fitAddon = new FitAddon();
 
+const ydoc = new Doc();
+console.log(window.location.pathname);
+const provider = new WebrtcProvider(window.location.pathname, ydoc);
+const type = ydoc.getText('monaco');
+
+
+const mEditor = editor.create(document.getElementById('monaco-editor'), {
+  value: '',
+  language: 'java',
+  theme: 'vs-dark',
+  minimap: {
+    enabled: false,
+  },
+});
+const monacoBinding = new MonacoBinding(
+  type,
+  mEditor.getModel(),
+  new Set([mEditor]),
+  provider.awareness
+);
+
+
+const term = new Terminal({
+  fontFamily: '"Cascadia Code", Menlo, monospace',
+  theme: { background: '#1e1e1e' },
+  cursorBlink: true,
+});
+const fitAddon = new FitAddon();
 term.loadAddon(fitAddon);
 term.open(document.getElementById('terminal'));
 fitAddon.fit();
 
 
 const worker = new Worker(new URL('./worker.js', import.meta.url)), button = document.getElementById('loadButton');
-
 worker.onmessage = (e) => {
   switch (e.data[0]) {
     case 'changeButton':
@@ -72,6 +78,7 @@ term.onData((e) => {
       }
   }
 });
+
 
 button.onclick = () => {
   if (button.id == 'runButton' && mEditor.getValue() !== '') {
